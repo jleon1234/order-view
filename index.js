@@ -48,6 +48,11 @@ app.post("/create/order", (req, res) => {
             })
         } else {
             orders = JSON.parse(data); //now it an object
+            let existOrder = orders.find(order => order.id == req.body.id);
+            console.log( "Exist order",existOrder);
+            if( existOrder ){
+                orders = orders.filter(order => order.id != req.body.id);
+            }
             orders.push(req.body);
             let json = JSON.stringify(orders);//add some data
             fs.writeFile('orders.json', json, 'utf8', () => {
